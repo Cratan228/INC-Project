@@ -29,33 +29,38 @@ class Obstacle(pygame.sprite.Sprite):
 
     def draw(self, colour, shape, screen, case):
         self.pos = (self.x, self.y)
-        global inipipe_top, inipipe_bottom, midpipe_top, midpipe_bottom, finpipe_top, finpipe_bottom
+        global inipipe_top, inipipe_bottom, mid1pipe_top, mid1pipe_bottom, mid2pipe_top, mid2pipe_bottom, finpipe_top, finpipe_bottom
 
         pipe_width = 50
 
         inipipe_top = pygame.draw.rect(screen, colour, pygame.Rect(inipipe_x, 0, pipe_width, inipipe_len))
         inipipe_bottom = pygame.draw.rect(screen, colour, pygame.Rect(inipipe_x, (inipipe_len + 100), pipe_width, 1000))
 
-        midpipe_top = pygame.draw.rect(screen, colour, pygame.Rect((inipipe_x + 200), 0, pipe_width, midpipe_len))
-        midpipe_bottom = pygame.draw.rect(screen, colour,
-                                          pygame.Rect((inipipe_x + 200), (midpipe_len + 100), pipe_width, 1000))
+        mid1pipe_top = pygame.draw.rect(screen, colour, pygame.Rect((inipipe_x + 200), 0, pipe_width, mid1pipe_len))
+        mid1pipe_bottom = pygame.draw.rect(screen, colour,
+                                          pygame.Rect((inipipe_x + 200), (mid1pipe_len + 100), pipe_width, 1000))
 
-        finpipe_top = pygame.draw.rect(screen, colour, pygame.Rect((inipipe_x + 400), 0, pipe_width, finpipe_len))
+        mid2pipe_top = pygame.draw.rect(screen, colour, pygame.Rect((inipipe_x + 400), 0, pipe_width, mid2pipe_len))
+        mid2pipe_bottom = pygame.draw.rect(screen, colour,
+                                          pygame.Rect((inipipe_x + 400), (mid2pipe_len + 100), pipe_width, 1000))
+
+        finpipe_top = pygame.draw.rect(screen, colour, pygame.Rect((inipipe_x + 600), 0, pipe_width, finpipe_len))
         finpipe_bottom = pygame.draw.rect(screen, colour,
-                                          pygame.Rect((inipipe_x + 400), (finpipe_len + 100), pipe_width, 1000))
+                                          pygame.Rect((inipipe_x + 600), (finpipe_len + 100), pipe_width, 1000))
 
 
 def main(screen):
     clock = pygame.time.Clock()  # for speed
 
-    global inipipe_len, midpipe_len, finpipe_len, inipipe_x
+    global inipipe_len, mid1pipe_len, mid2pipe_len, finpipe_len, inipipe_x
     obstacle = Obstacle(450, 350, screen)
     colour = "grey"
     shape = "pipe"
     case = random.randint(0, 2)
-    inipipe_len = random.randint(0, 350)
-    midpipe_len = random.randint(0, 350)
-    finpipe_len = random.randint(0, 350)
+    inipipe_len = random.randint(50, 300)
+    mid1pipe_len = random.randint(50, 300)
+    mid2pipe_len = random.randint(50, 300)
+    finpipe_len = random.randint(50, 300)
     inipipe_x = random.randint(400, 500)
 
     run = True
@@ -70,10 +75,11 @@ def main(screen):
                 run = False
 
         inipipe_x -= 1
-        if inipipe_x == 200:
+        if inipipe_x == 0:
             inipipe_x += 200
-            inipipe_len = midpipe_len
-            midpipe_len = finpipe_len
+            inipipe_len = mid1pipe_len
+            mid1pipe_len = mid2pipe_len
+            mid2pipe_len = finpipe_len
             finpipe_len = random.randint(0, 350)
 
         pygame.display.update()
